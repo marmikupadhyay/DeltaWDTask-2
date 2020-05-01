@@ -20,6 +20,8 @@ export default class Game {
     this.score = 0;
     this.jumpSound = document.getElementById("jump");
     this.bgSound = document.getElementById("bgMusic");
+    this.deadSound = document.getElementById("dead");
+
     this.bgSound.addEventListener("ended", e => {
       this.play();
     });
@@ -122,6 +124,7 @@ export default class Game {
       this.ball.gravity = 0;
       if (this.lives <= 0) {
         this.gameState = 3;
+        this.deadSound.play();
         this.bgSound.removeEventListener("ended", {});
         this.bgSound.pause();
         this.updateScores();
@@ -137,7 +140,7 @@ export default class Game {
     ctx.fillText(`Score : ${this.score}`, 0, 30);
     if (this.gameState === GAMESTATE.gameover) {
       ctx.rect(0, 0, this.gameWidth, this.gameHeight);
-      ctx.fillStyle = "rgba(0, 0, 0, 1)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
       ctx.fill();
       ctx.font = "32px Arial";
       ctx.fillStyle = "white";
