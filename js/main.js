@@ -1,7 +1,13 @@
 import Game from "/js/game.js";
 
-var GAME_WIDTH = 500;
-var GAME_HEIGHT = 700;
+if (window.screen.width > 600) {
+  var GAME_WIDTH = window.screen.width / 3;
+  var GAME_HEIGHT = 700;
+} else {
+  var GAME_WIDTH = window.screen.width;
+  var GAME_HEIGHT = window.screen.height;
+}
+console.log(window.screen.width);
 var canvas = document.getElementById("game-screen");
 canvas.width = GAME_WIDTH;
 canvas.height = GAME_HEIGHT;

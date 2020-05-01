@@ -17,6 +17,12 @@ export default class Game {
     this.gameWidth = gameWidth;
     this.gameState = GAMESTATE.menu;
     this.ball = new Ball(this);
+    this.score = 0;
+    this.jumpSound = document.getElementById("jump");
+    this.bgSound = document.getElementById("bgMusic");
+    this.bgSound.addEventListener("ended", e => {
+      this.play();
+    });
     this.obstacles = [];
     var params = {
       x: this.gameWidth / 2,
@@ -30,13 +36,13 @@ export default class Game {
         y:
           this.obstacles[this.obstacles.length - 1].position.y -
           getRndInt(250, 450),
-        angle: getRndInt(0, 360)
+        angle:
+          (this.obstacles[this.obstacles.length - 1].startAngle + 180) % 360
       };
       this.obstacles.push(new Obstacle(this, params));
     }
 
     this.lives = 1;
-    new Input(this);
     this.gameState = 2;
 
     this.counter = 1;
@@ -44,6 +50,8 @@ export default class Game {
     document.getElementById("play").addEventListener("click", e => {
       e.target.parentElement.parentElement.className += " hide";
       this.gameState = 1;
+      new Input(this);
+      this.bgSound.play();
     });
     document.getElementById("scores").addEventListener("click", e => {
       e.target.parentElement.parentElement.nextElementSibling.classList.remove(
@@ -59,6 +67,7 @@ export default class Game {
       e.target.parentElement.parentElement.className += " hide";
       this.gameState = 2;
     });
+    this.putScores();
   }
   start() {
     if (
@@ -92,19 +101,40 @@ export default class Game {
         y:
           this.obstacles[this.obstacles.length - 1].position.y -
           getRndInt(250, 450),
-        angle: getRndInt(0, 360)
+        angle:
+          (this.obstacles[this.obstacles.length - 1].startAngle + 180) % 360
       };
       this.obstacles.push(new Obstacle(this, params));
     }
 
     this.counter++;
-    this.obstacles.forEach(obstacle => {
+    this.obstacles.forEach((obstacle, i) => {
       obstacle.update(this);
+      if (obstacle.markedForDeletion == true) {
+        this.obstacles.splice(i, 1);
+        this.score++;
+        console.log(this.obstacles.length);
+      }
     });
-    this.obstacles = this.obstacles.filter(object => !object.markedForDeletion);
+    if (this.ball.position.y > this.gameHeight) {
+      this.lives--;
+      this.ball.speed.y = 0;
+      this.ball.gravity = 0;
+      if (this.lives <= 0) {
+        this.gameState = 3;
+        this.bgSound.removeEventListener("ended", {});
+        this.bgSound.pause();
+        this.updateScores();
+      }
+    }
   }
-
   draw(ctx) {
+    this.obstacles.forEach(obstacle => {
+      obstacle.draw(ctx);
+    });
+    this.ball.draw(ctx);
+    ctx.font = "30px Arial";
+    ctx.fillText(`Score : ${this.score}`, 0, 30);
     if (this.gameState === GAMESTATE.gameover) {
       ctx.rect(0, 0, this.gameWidth, this.gameHeight);
       ctx.fillStyle = "rgba(0, 0, 0, 1)";
@@ -132,10 +162,6 @@ export default class Game {
       ctx.textAlign = "center";
       ctx.fillText("Paused", this.gameWidth / 2, this.gameHeight / 2);
     }
-    this.obstacles.forEach(obstacle => {
-      obstacle.draw(ctx);
-    });
-    this.ball.draw(ctx);
   }
 
   togglePause() {
@@ -143,7 +169,43 @@ export default class Game {
       this.gameState = GAMESTATE.running;
     } else this.gameState = GAMESTATE.paused;
   }
+
+  putScores() {
+    var scoreList = document.querySelector(".scores");
+    var scores = [];
+    if (localStorage.getItem("switchscores") != null) {
+      scores = JSON.parse(localStorage.getItem("switchscores"));
+    }
+    console.log(scores);
+    scores.sort(function (a, b) {
+      return a - b;
+    });
+    console.log(scores);
+    var l = scores.length > 5 ? 5 : scores.length;
+    console.log(l);
+    for (var i = scores.length - 1; i >= scores.length - l; i--) {
+      var item = document.createElement("li");
+      item.className = "score-item";
+      item.innerHTML = `${scores[i]}`;
+      scoreList.appendChild(item);
+    }
+  }
+
+  updateScores() {
+    var scores;
+    if (localStorage.getItem("switchscores") != null) {
+      scores = JSON.parse(localStorage.getItem("switchscores"));
+    } else {
+      scores = [];
+    }
+    console.log(this.score);
+    console.log(scores);
+    scores.push(this.score);
+    localStorage.setItem("switchscores", JSON.stringify(scores));
+    // this.putScores();
+  }
 }
+
 function getRndInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
