@@ -7,7 +7,6 @@ if (window.innerWidth > 600) {
   var GAME_WIDTH = window.innerWidth;
   var GAME_HEIGHT = window.innerHeight;
 }
-console.log(window.screen.width);
 var canvas = document.getElementById("game-screen");
 canvas.width = GAME_WIDTH;
 canvas.height = GAME_HEIGHT;

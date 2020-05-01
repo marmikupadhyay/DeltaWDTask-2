@@ -114,10 +114,10 @@ export default class Game {
       obstacle.update(this);
       if (obstacle.markedForDeletion == true) {
         this.obstacles.splice(i, 1);
-        this.score++;
         console.log(this.obstacles.length);
       }
     });
+    console.log(this.obstacles.length);
     if (this.ball.position.y > this.gameHeight) {
       this.lives--;
       this.ball.speed.y = 0;
@@ -179,7 +179,6 @@ export default class Game {
     if (localStorage.getItem("switchscores") != null) {
       scores = JSON.parse(localStorage.getItem("switchscores"));
     }
-    console.log(scores);
     scores.sort(function (a, b) {
       return a - b;
     });
@@ -201,9 +200,11 @@ export default class Game {
     } else {
       scores = [];
     }
-    console.log(this.score);
-    console.log(scores);
     scores.push(this.score);
+    scores.sort(function (a, b) {
+      return a - b;
+    });
+    scores.splice(0, scores.length - 5);
     localStorage.setItem("switchscores", JSON.stringify(scores));
     // this.putScores();
   }

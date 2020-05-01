@@ -5,10 +5,12 @@ export default class Obstacle {
     this.radius = 90;
     this.thick = 20;
     this.indices = new Array();
+    this.passed = false;
     this.position = {
       x: params.x,
       y: params.y
     };
+    this.pixels;
     this.speed = {
       x: 0,
       y: 0
@@ -58,6 +60,12 @@ export default class Obstacle {
     this.startAngle += (this.angularSpeed / 180) * Math.PI;
     if (this.position.y - this.radius > this.gameHeight) {
       this.markedForDeletion = true;
+    }
+    if (game.ball.position.y < this.position.y - this.radius) {
+      if (this.passed != true) {
+        game.score++;
+      }
+      this.passed = true;
     }
   }
 }
