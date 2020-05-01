@@ -11,7 +11,6 @@ menus.forEach(menu => {
   menu.style.height = GAME_HEIGHT + "px";
 });
 var ctx = canvas.getContext("2d");
-console.log(ctx);
 
 var game = new Game(GAME_WIDTH, GAME_HEIGHT);
 

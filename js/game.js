@@ -17,12 +17,30 @@ export default class Game {
     this.gameWidth = gameWidth;
     this.gameState = GAMESTATE.menu;
     this.ball = new Ball(this);
-    this.obstacle = new Obstacle(this);
+    this.obstacles = [];
+    var params = {
+      x: this.gameWidth / 2,
+      y: 300,
+      angle: 10
+    };
+    this.obstacles.push(new Obstacle(this, params));
+    for (var i = 0; i < 10; i++) {
+      var params = {
+        x: this.gameWidth / 2,
+        y:
+          this.obstacles[this.obstacles.length - 1].position.y -
+          getRndInt(250, 450),
+        angle: getRndInt(0, 360)
+      };
+      this.obstacles.push(new Obstacle(this, params));
+    }
+
     this.lives = 1;
-    this.objects = [];
     new Input(this);
     this.gameState = 2;
 
+    this.counter = 1;
+    this.ops = 400;
     document.getElementById("play").addEventListener("click", e => {
       e.target.parentElement.parentElement.className += " hide";
       this.gameState = 1;
@@ -63,7 +81,27 @@ export default class Game {
     if (this.lives < 0) {
       this.gameState = GAMESTATE.gameover;
     }
-    this.obstacle.update(this);
+    if (this.counter % 6000 == 0) {
+      this.counter = 0;
+      console.log("what");
+    }
+
+    if (this.obstacles.length < 10) {
+      var params = {
+        x: this.gameWidth / 2,
+        y:
+          this.obstacles[this.obstacles.length - 1].position.y -
+          getRndInt(250, 450),
+        angle: getRndInt(0, 360)
+      };
+      this.obstacles.push(new Obstacle(this, params));
+    }
+
+    this.counter++;
+    this.obstacles.forEach(obstacle => {
+      obstacle.update(this);
+    });
+    this.obstacles = this.obstacles.filter(object => !object.markedForDeletion);
   }
 
   draw(ctx) {
@@ -94,13 +132,10 @@ export default class Game {
       ctx.textAlign = "center";
       ctx.fillText("Paused", this.gameWidth / 2, this.gameHeight / 2);
     }
-    this.obstacle.draw(ctx);
+    this.obstacles.forEach(obstacle => {
+      obstacle.draw(ctx);
+    });
     this.ball.draw(ctx);
-    ctx.rect(400, 0, 20, 20);
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "black";
-    ctx.textAlign = "center";
-    ctx.fillText(`Level: ${this.currentLevel + 1}`, 400, 20);
   }
 
   togglePause() {
@@ -108,4 +143,7 @@ export default class Game {
       this.gameState = GAMESTATE.running;
     } else this.gameState = GAMESTATE.paused;
   }
+}
+function getRndInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

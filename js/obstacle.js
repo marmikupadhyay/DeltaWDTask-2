@@ -1,16 +1,23 @@
 export default class Obstacle {
-  constructor(gameWidth, gameHeight) {
-    this.gameWidth = gameWidth;
-    this.gameHeight = gameHeight;
-    this.radius = 70;
+  constructor(game, params) {
+    this.gameWidth = game.gameWidth;
+    this.gameHeight = game.gameHeight;
+    this.radius = 90;
     this.thick = 20;
+    this.indices = new Array();
     this.position = {
-      x: gameWidth / 2,
-      y: 300
+      x: params.x,
+      y: params.y
     };
-    this.startAngle = 0;
+    this.speed = {
+      x: 0,
+      y: 0
+    };
+    this.gravity = -9.8;
+    this.startAngle = params.angle;
     this.colors = ["red", "blue", "green", "gold"];
     this.angularSpeed = 2;
+    this.markedForDeletion = false;
   }
 
   draw(ctx) {
@@ -44,7 +51,13 @@ export default class Obstacle {
     ctx.fillStyle = "#343a40";
     ctx.fill();
   }
-  update() {
+  update(game) {
+    this.speed.y += this.gravity / 100;
+    if (this.speed.y < 0) this.speed.y = 0;
+    this.position.y += this.speed.y;
     this.startAngle += (this.angularSpeed / 180) * Math.PI;
+    if (this.position.y - this.radius > this.gameHeight) {
+      this.markedForDeletion = true;
+    }
   }
 }
