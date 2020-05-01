@@ -6,11 +6,11 @@ export default class Ball {
     this.gravity = 9.8;
     this.position = {
       x: gameWidth / 2,
-      y: 100
+      y: gameHeight - 100
     };
     this.maxSpeed = {
       x: 0,
-      y: 3
+      y: 0
     };
     this.speed = {
       x: 0,
