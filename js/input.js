@@ -9,6 +9,9 @@ export default class InputHandler {
             game.obstacles.forEach(obstacle => {
               obstacle.speed.y = 4;
             });
+            game.collectibles.forEach(collectible => {
+              collectible.speed.y = 4;
+            });
           }
           break;
       }
