@@ -8,6 +8,7 @@
   min-height: 100vh;
   position: relative;
   background: white;
+  overflow: hidden;
 }
 #game-screen {
   position: absolute;
@@ -67,6 +68,10 @@ small {
   margin: 20px auto;
   color: white;
   min-height: 50px;
+}
+
+#powerups {
+  display: none;
 }
 
 .menu .menu-list .list-item:hover {
