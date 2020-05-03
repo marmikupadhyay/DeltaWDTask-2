@@ -349,26 +349,39 @@ export default class Game {
   }
 
   input() {
-    document
-      .getElementById("game-screen")
-      .addEventListener("keypress", event => {
-        switch (event.keyCode) {
-          case 32:
-            this.ball.speed.y = -this.ball.jumpHeight;
-            this.jumpSound.play();
-            if (this.ball.position.y < this.ball.gameHeight / 2) {
-              this.obstacles.forEach(obstacle => {
-                obstacle.speed.y = 4;
-              });
-              this.collectibles.forEach(collectible => {
-                collectible.speed.y = 4;
-              });
-            }
-            break;
-        }
-      });
+    this.area.addEventListener("keypress", event => {
+      switch (event.keyCode) {
+        case 32:
+          this.ball.speed.y = -this.ball.jumpHeight;
+          this.jumpSound.play();
+          if (this.ball.position.y < this.ball.gameHeight / 2) {
+            this.obstacles.forEach(obstacle => {
+              obstacle.speed.y = 4;
+            });
+            this.collectibles.forEach(collectible => {
+              collectible.speed.y = 4;
+            });
+          }
+          break;
+      }
+    });
 
-    this.area.addEventListener("click", event => {
+    this.area.addEventListener("mousedown", event => {
+      this.ball.speed.y = -this.ball.jumpHeight;
+      this.jumpSound.play();
+      if (this.ball.position.y < this.ball.gameHeight / 2) {
+        this.obstacles.forEach(obstacle => {
+          obstacle.speed.y = 4;
+        });
+        this.collectibles.forEach(collectible => {
+          collectible.speed.y = 4;
+        });
+      }
+    });
+
+    this.area.addEventListener("touchstart", event => {
+      console.log(event.touches);
+      event.preventDefault();
       this.ball.speed.y = -this.ball.jumpHeight;
       this.jumpSound.play();
       if (this.ball.position.y < this.ball.gameHeight / 2) {
