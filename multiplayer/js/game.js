@@ -213,8 +213,8 @@ export default class Game {
     ctx.fillStyle = "white";
     ctx.textAlign = "left";
     var highScore;
-    if (localStorage.getItem("switchscores") != null) {
-      var scores = JSON.parse(localStorage.getItem("switchscores"));
+    if (localStorage.getItem("switchscores2") != null) {
+      var scores = JSON.parse(localStorage.getItem("switchscores2"));
       highScore = scores[4];
     } else {
       highScore = 0;
@@ -303,8 +303,8 @@ export default class Game {
   putScores() {
     var scoreList = document.querySelector(".scores");
     var scores = [];
-    if (localStorage.getItem("switchscores") != null) {
-      scores = JSON.parse(localStorage.getItem("switchscores"));
+    if (localStorage.getItem("switchscores2") != null) {
+      scores = JSON.parse(localStorage.getItem("switchscores2"));
     }
     scores.sort(function (a, b) {
       return a - b;
@@ -320,8 +320,8 @@ export default class Game {
 
   updateScores() {
     var scores;
-    if (localStorage.getItem("switchscores") != null) {
-      scores = JSON.parse(localStorage.getItem("switchscores"));
+    if (localStorage.getItem("switchscores2") != null) {
+      scores = JSON.parse(localStorage.getItem("switchscores2"));
     } else {
       scores = [0, 0, 0, 0, 0];
     }
@@ -345,7 +345,7 @@ export default class Game {
       return a - b;
     });
     scores.splice(0, scores.length - 5);
-    localStorage.setItem("switchscores", JSON.stringify(scores));
+    localStorage.setItem("switchscores2", JSON.stringify(scores));
   }
 
   input() {
