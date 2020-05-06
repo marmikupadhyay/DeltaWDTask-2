@@ -2,6 +2,10 @@
 
 Repo to hold the second task of web - dev
 
+### All the sub-tasks that are included/completed are ticked
+
+### You can play the game [Here](https://marmikupadhyay.github.io/DeltaWDTask-2/)
+
 ## Normal mode
 
 - [x] Create a game where the user presses a button or taps on the screen to make a ball jump.
