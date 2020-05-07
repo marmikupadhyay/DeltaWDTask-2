@@ -30,5 +30,8 @@ export default class Ball {
   update(game) {
     this.speed.y += this.gravity / 100;
     this.position.y += this.speed.y;
+    if (this.position.y <= 0) {
+      this.position.y = 0;
+    }
   }
 }
