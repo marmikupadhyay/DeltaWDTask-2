@@ -14,8 +14,7 @@ const GAMESTATE = {
   info: 6
 };
 
-var COLORS = ["#0000ff", "#ff0000", "#008000", "#ffff00"];
-
+var COLORS = ["#fae100", "#900dff", "#ff0181", "#32dbf0"];
 export default class Game {
   constructor(gameWidth, gameHeight) {
     this.gameHeight = gameHeight;
@@ -202,7 +201,7 @@ export default class Game {
     if (this.gameState == GAMESTATE.menu) {
       return;
     }
-    ctx.fillStyle = "#343a40";
+    ctx.fillStyle = "#272727";
     ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
     this.obstacles.forEach(obstacle => {
       obstacle.draw(ctx);

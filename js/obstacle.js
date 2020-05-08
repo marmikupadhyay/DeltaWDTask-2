@@ -54,7 +54,7 @@ export default class Obstacle {
     this.gravity = -9.8;
     this.startAngle = params.angle;
     this.startAngle2 = params.angle;
-    this.colors = ["#ff0000", "#0000ff", "#008000", "#ffff00"];
+    this.colors = ["#fae100", "#900dff", "#ff0181", "#32dbf0"];
     shuffleArray(this.colors);
     this.angularSpeed = (1 - this.direction * 2) * 2;
     this.markedForDeletion = false;
@@ -108,8 +108,8 @@ export default class Obstacle {
         Math.PI * 2,
         true
       );
-      ctx.fillStyle = "#343a40";
-      ctx.strokeStyle = "#343a40";
+      ctx.fillStyle = "#272727";
+      ctx.strokeStyle = "#272727";
       ctx.fill();
     }
     if (this.type == 10) {
@@ -172,8 +172,8 @@ export default class Obstacle {
         Math.PI * 2,
         true
       );
-      ctx.fillStyle = "#343a40";
-      ctx.strokeStyle = "#343a40";
+      ctx.fillStyle = "#272727";
+      ctx.strokeStyle = "#272727";
       ctx.fill();
       for (var i = 0; i < this.number; i++) {
         this.startAngle2 = this.startAngle2 + (2 * Math.PI) / this.number;
@@ -210,8 +210,8 @@ export default class Obstacle {
         Math.PI * 2,
         true
       );
-      ctx.fillStyle = "#343a40";
-      ctx.strokeStyle = "#343a40";
+      ctx.fillStyle = "#272727";
+      ctx.strokeStyle = "#272727";
       ctx.fill();
     }
     if (this.type == 4) {
@@ -247,8 +247,8 @@ export default class Obstacle {
       ctx.translate(this.position.x, this.position.y);
       ctx.beginPath();
       ctx.arc(0, 0, 30, 0, Math.PI * 2, true);
-      ctx.fillStyle = "#343a40";
-      ctx.strokeStyle = "#343a40";
+      ctx.fillStyle = "#272727";
+      ctx.strokeStyle = "#272727";
       ctx.fill();
       ctx.restore();
     }

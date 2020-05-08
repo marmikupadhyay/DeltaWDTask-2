@@ -4,7 +4,7 @@ export default class Ball {
     this.gameWidth = game.gameWidth;
     this.radius = 10;
     this.gravity = 9.8;
-    this.color = "#ff0000";
+    this.color = "#32dbf0";
     this.jumpHeight = 2.5;
     this.game = game;
     this.position = {
