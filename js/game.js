@@ -96,7 +96,7 @@ export default class Game {
     };
     this.obstacles.push(new Obstacle(this, params));
     var params2 = {
-      type: 1,
+      type: getRndInt(1, 4),
       y: this.obstacles[0].position.y + getRndInt(200, 250)
     };
     this.collectibles.push(new Collectible(this, params2));
@@ -108,7 +108,7 @@ export default class Game {
           getRndInt(350, 550),
         angle:
           (this.obstacles[this.obstacles.length - 1].startAngle + 180) % 360,
-        type: getRndInt(1, 2)
+        type: getRndInt(1, 4)
       };
       this.obstacles.push(new Obstacle(this, params));
       if (i % 2 == 0) {
@@ -158,7 +158,7 @@ export default class Game {
           getRndInt(350, 550),
         angle:
           (this.obstacles[this.obstacles.length - 1].startAngle + 180) % 360,
-        type: getRndInt(1, 2)
+        type: getRndInt(1, 4)
       };
       this.obstacles.push(new Obstacle(this, params));
       if (this.counter % 2 == 0) {
